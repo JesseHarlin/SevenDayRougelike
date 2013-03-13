@@ -1,8 +1,11 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<script type="text/javascript" src="akihabara/src/akihabara.js"></script>
-		<script type="text/javascript" src="akihabara/src/input.js"></script>
+<head>
+    <script type="text/javascript" src="akihabara/src/akihabara.js"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="resources/level_generator.js"></script>
+
+    <!--	    <script type="text/javascript" src="akihabara/src/input.js"></script>
 		<script type="text/javascript" src="akihabara/src/audio.js"></script>
 		<script type="text/javascript" src="akihabara/src/debug.js"></script>
 		<script type="text/javascript" src="akihabara/src/trigo.js"></script>
@@ -17,14 +20,91 @@
 		<script type="text/javascript" src="akihabara/src/devices.js"></script>
 
 	
-		<script type="text/javascript" src="src/player.js"></script>
-	
-	
-		<script type="text/javascript" src="src/game.js"></script>
-		<style type="text/css">BODY { -webkit-user-select:none; margin:0px}</style>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-		<title>Capstone</title>
-	</head>
-	<body>
-	</body>
+		<script type="text/javascript" src="src/player.js"></script>-->
+
+
+    <!--<script type="text/javascript" src="src/game.js"></script>-->
+    <style type="text/css">
+        BODY
+        {
+            -webkit-user-select: none;
+            margin: 0px;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Capstone</title>
+</head>
+<body>
+    <button id="smackit">GEN</button>
+    <div id="derp">
+    </div>
+</body>
+<style>
+    td
+    {
+        width: 7px;
+        height: 7px;
+        text-align: center;
+        border:1px white solid
+    }
+    table {
+        border-collapse: collapse
+    }
+</style>
+<script>
+
+
+
+    $(document).ready(function () {
+
+        var levelGen = function () {
+            var level = poop.generateRandomLevel({
+                width: 110,
+                height: 70,
+                divisions: 1,
+                minRoomWidth: 10,
+                minRoomHeight: 10
+
+            });
+            
+            var levelLength = level.length;
+            var table = "<table>";
+            var colorlist = [
+                "#000000",
+                "rgba(172, 236, 68, 0.7)",
+                "rgba(255, 32, 7, 0.7)",
+                "rgba(225, 78, 212, 0.8)",
+                "#37F8A2",
+                "#E5DFA0",
+                "#E14ED4",
+                "#905D9D",
+                "#350882",
+                "#1A9261",
+                "#FC397B",
+                "#FFFFFF",
+                "#FF00FF",
+                "#0000FF",
+                "#FF0000",
+                "#0F0FF0"
+            ];
+            for (var i = 0; i < levelLength; i++) {
+                table += "<tr>";
+                var tdLength = level[i].length;
+                for (var j = 0; j < tdLength; j++) {
+                    var num = level[i][j];
+                    var color = colorlist[num];
+                    table += "<td style='background-color:" + color + "'></td>";
+                }
+                table += "</tr>";
+            }
+            table += "</table>";
+            
+            $('#derp').html(table);
+        };
+
+        levelGen();
+        $('#smackit').click(levelGen);
+    });
+
+</script>
 </html>
