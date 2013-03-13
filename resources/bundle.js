@@ -1,6 +1,4 @@
 ﻿(function() {
-
-
     
 
     return {
@@ -62,7 +60,7 @@
         //],
 
         addBundle: [
-           // { file: "resources/bundle-credits.js" }
+            // { file: "resources/bundle-credits.js" }
            
         ]
     };
