@@ -14,6 +14,7 @@ var poop = {};
         var floor2 = 3;
         var wall = 2;
 
+        var randomfloor = 3;
 
         var populateNothingness = function () {
             var level = [];
@@ -41,21 +42,24 @@ var poop = {};
                 
                 for (var j = node.startx; j < width; j++) {
                     
-                    if (i == node.starty || j == node.startx ||
-                        i == endhDepth || j == endwDepth) {
+                    //if (i == node.starty || j == node.startx ||
+                    //    i == endhDepth || j == endwDepth) {
                         
-                        level[i][j] = wall;
-                    } else {
+                    //    level[i][j] = wall;
+                    //} else {
                         level[i][j] = floor;
-                    }
+                    //}
                 }
                 
             }
+            floor = (floor + 1) % 16;
+
+            console.log('floor',floor);
         };
 
         var level = populateNothingness();
 
-        var leafPile = [];
+        
 
 
         var bisectNode = function (divDir, node) {
@@ -70,7 +74,10 @@ var poop = {};
             
 
             if (!divDir) {
-                var  randomNumber = Math.floor(Math.random() * width);
+                
+                //randomfloor
+
+                var randomNumber = Math.floor(Math.random() * width);
                 var remainder = width - randomNumber;
 
                 console.log(width, randomNumber, remainder);
@@ -92,7 +99,8 @@ var poop = {};
 
             } else {
                 
-                randomNumber = Math.floor(Math.random() * height);
+                var randomNumber = Math.floor(Math.random() * height);
+                var remainder = height - randomNumber;
                 
                 squareNodes.push({
                     startx: startx,
@@ -104,7 +112,7 @@ var poop = {};
                     startx: startx,
                     starty: starty + randomNumber,
                     width: width,
-                    height: height - randomNumber
+                    height: remainder
                 });
 
             }
@@ -112,26 +120,31 @@ var poop = {};
         };
 
 
-        for (var i = 0; i < o.divisions; i++) {
-
-            
-
-            var nodes = bisectNode(1 % 2, {});
-
-            var nodesLength = nodes.length;
-            
-            console.log(nodes)
-
-            for (var j = 0; j < nodesLength; j++) {
-
-                makeRoomSquare(nodes[j]);
-
-            }
-        }
+        var parentmostNode = {
+            startx: 0,
+            starty: 0,
+            width: o.width,
+            height: o.height
+        };
 
         
+        var leafpile = [];
+        leafpile.push(parentmostNode);
+        
+        
+        for (var i = 0; i < o.divisions; i++) {
+            
+          
+                newTier.push(bisectNode(1 % 2, leafPile[i][k]));
+            
+            
+        }
 
 
+        console.log(leafPile);
+
+
+        
 
         
 
