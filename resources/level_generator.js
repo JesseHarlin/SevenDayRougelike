@@ -29,168 +29,165 @@ var poop = {};
         };
 
 
+    
+
         var makeRoomSquare = function (node) {
-            var height = node.height + node.starty;
-            var width = node.width + node.startx;
-
-            console.log('w x h',width, height);
-
-            var endhDepth = height - 1;
-            var endwDepth = width - 1;
-
-            for (var i = node.starty; i < height; i++) {
-                
-                for (var j = node.startx; j < width; j++) {
-                    
-                    //if (i == node.starty || j == node.startx ||
-                    //    i == endhDepth || j == endwDepth) {
-                        
-                    //    level[i][j] = wall;
-                    //} else {
-                        level[i][j] = node.color;
-                    //}
+            var height = node.h + node.y;
+            var width = node.w + node.x;
+            for (var i = node.y; i < height; i++) {
+                for (var j = node.x; j < width; j++) {
+                        level[i][j] = node.rgba;
                 }
-                
             }
-            floor = (floor + 1) % 16;
-
-            console.log('floor',floor);
         };
 
+        var processNode = function (node) {
+            
+            if (node.w + node.h) {
+                makeRoomSquare(node);
+            }
+            
+        };
+
+
         var level = populateNothingness();
-
-
         var getRandomColor = function() {
-
             var r = Math.floor(Math.random() * 255);
             var g = Math.floor(Math.random() * 255);
             var b = Math.floor(Math.random() * 255);
-
-            return 'rgba(' + r + ',' + g + ',' + b + ',0.4)';
+            return 'rgba(' + r + ',' + g + ',' + b + ', 0.4)';
         };
-        
 
-        //can replace with different subdivisions
-        var bisectNode = function (divDir, node) {
-
-            var squareNodes = [];
+        var getConstrainedRandomNumber = function (seed) {
 
             
 
-            var startx = node.startx  ;
-            var starty = node.starty  ;
-            var width = node.width ;
-            var height = node.height ;
+            if (seed <= o.minRoomThickness) {
+                console.log('ARG');
+                return 0;
+            }
+           
+            var num = Math.floor(Math.random() * (seed));
+
+            
+
+            if (num >= o.minRoomThickness) {
+                return num;
+            }
+
+
+            return getConstrainedRandomNumber(seed);
+        };
+
+
+        //can replace with different subdivisions
+        var bisectNode = function (_divDir, _parent, _depth) {
+            var children = [];
+            
+            var startx = _parent.x;
+            var starty = _parent.y;
+            var width = _parent.w;
+            var height = _parent.h;
 
             var randomNumber;
             var remainder;
 
-            if (divDir) {
-                randomNumber = Math.floor(Math.random() * width);
+            if (_divDir) {
+                randomNumber = getConstrainedRandomNumber(width);
                 remainder = width - randomNumber;
-                squareNodes.push({
-                    startx : startx,
-                    starty : starty,
-                    width: randomNumber,
-                    height: height,
-                    color: getRandomColor()
+                children.push({
+                    
+                    x : startx,
+                    y : starty,
+                    w: randomNumber,
+                    h: height,
+                    rgba: getRandomColor()
 
                 });
-                squareNodes.push({
-                    startx: startx + randomNumber,
-                    starty: starty,
-                    width: remainder,
-                    height: height,
-                    color: getRandomColor()
+                children.push({
+                    
+                    x: startx + randomNumber,
+                    y: starty,
+                    w: remainder,
+                    h: height,
+                    rgba: getRandomColor()
                 });
 
             } else {
-                randomNumber = Math.floor(Math.random() * height);
+                randomNumber = getConstrainedRandomNumber(height);
                 remainder = height - randomNumber;
-                squareNodes.push({
-                    startx: startx,
-                    starty: starty,
-                    width: width,
-                    height: randomNumber,
-                    color: getRandomColor()
+                children.push({
+                    
+                    x: startx,
+                    y: starty,
+                    w: width,
+                    h: randomNumber,
+                    rgba: getRandomColor()
                 });
-                squareNodes.push({
-                    startx: startx,
-                    starty: starty + randomNumber,
-                    width: width,
-                    height: remainder,
-                    color: getRandomColor()
+                children.push({
+                    
+                    x: startx,
+                    y: starty + randomNumber,
+                    w: width,
+                    h: remainder,
+                    rgba: getRandomColor()
                 });
             }
-            return squareNodes;
+            return children;
         };
         
         var parentmostNode = {
-            startx: 0,
-            starty: 0,
-            width: o.width,
-            height: o.height,
-            color: getRandomColor()
+
         };
 
-        
-        var leafpile =[];
-        leafpile = parentmostNode;
 
-        var childLeafName = "children";
+        function generateTree(pnode, pheight) {
 
-        for (var i = 0; i < o.divisions; i++) {
-            console.log(i);
-            var start = leafpile;
-
-            while (leafpile[childLeafName] && leafpile[childLeafName].length) {
-                leafpile = leafpile[childLeafName];
-            }
-
-            var leafpileLength = leafpile.length;
-            if (leafpileLength == 2) {
-                for (var j = 0; j < leafpileLength; j++) {
-                    leafpile[j][childLeafName] = bisectNode((i % 2), leafpile[j]);
-                }
-            } else {
-                leafpile[childLeafName] = bisectNode(i % 2, leafpile);
-            }
-
-            leafpile = start;
-        }
-
-        console.log('parentmostNode', parentmostNode);
-
-        console.log('-------------------');
-        var temp = parentmostNode;
-
-        var stack = [];
-        stack.push(temp);
-
-        var ministack = [];
-
-        for (var l = 0; l < temp[childLeafName].length; l++) {
-            console.log('stack', stack.length, stack);
+            var node = $.extend(pnode, {
+                x: 0,
+                y: 0,
+                w: o.width,
+                h: o.height,
+                rgba: getRandomColor()
+            });
             
-            ministack.push(temp[childLeafName][l]);
-            stack.push(temp[childLeafName][l]);
+            var height = pheight;
 
-            if (ministack[l][childLeafName]) {
-                for (var m = 0; m < ministack[l][childLeafName].length; m++) {
-                    stack.push(ministack[l][childLeafName][m]);
+            var generateLeaf = function(node, height) {
+                if (height === 0) {
+                    processNode(node);
+                    return node;
                 }
-            }
-            console.log('stack', stack.length, stack);
+
+                var temp = node;
+                var childLength = temp.children ? temp.children.length : 0;
+
+                if (!childLength) {
+                    temp.children = bisectNode(height % 2, temp);
+                    generateLeaf(temp, height);
+                }
+                
+                for (var i = 0; i < childLength; i++) {
+                    generateLeaf(temp.children[i], height - 1);
+                }
+            };
+            generateLeaf(pnode, pheight);
+            return pnode;
         }
 
 
-        var stacklength = stack.length;
-        for (var k = 0; k < stacklength; k++) {
-            makeRoomSquare(stack[k]);
-        }
+
+        var depth = o.divisions;
+
+        var tree = generateTree(parentmostNode, depth);
 
 
-        console.log('final', parentmostNode, level);
+        console.log('generated Tree', tree);
+
+
+        
+
+
         
 
         return level;
@@ -200,4 +197,5 @@ var poop = {};
 
 
 })();
+
 
