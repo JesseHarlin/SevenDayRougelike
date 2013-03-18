@@ -52,9 +52,9 @@ var poop = {};
                 }
                 
             }
-            floor = (floor + 1) % 16;
+            //floor = (floor + 1) % 16;
 
-            console.log('floor',floor);
+            //console.log('floor',floor);
         };
 
         var level = populateNothingness();
@@ -157,6 +157,10 @@ var poop = {};
             }
 
             leafpile = start;
+
+
+            var x = leafpile;
+            console.log('node',x);
         }
 
         console.log('parentmostNode', parentmostNode);
