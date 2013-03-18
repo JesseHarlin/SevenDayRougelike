@@ -42,8 +42,8 @@
 <style>
     td
     {
-        width: 4px;
-        height: 4px;
+        width: 3px;
+        height: 3px;
         text-align: center;
         border:1px white solid
     }
@@ -59,10 +59,11 @@
 
         var levelGen = function () {
             var level = poop.generateRandomLevel({
-                width: 175,
-                height: 125,
-                divisions: 6,
-                minRoomThickness: 25,
+                width: 250,
+                height: 150,
+                divisions: 2,
+                minSubdivideAmt: 10,
+                minParentWidth: 25
                 
 
             });

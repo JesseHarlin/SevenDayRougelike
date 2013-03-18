@@ -6,8 +6,6 @@ var poop = {};
 
     poop.generateRandomLevel = function (o) {
 
-
-
         //Tiles
         var nothingness = 0;
         var floor = 1;
@@ -28,25 +26,32 @@ var poop = {};
             return level;
         };
 
-
-    
-
-        var makeRoomSquare = function (node) {
+        var makeRoomSquare = function (node, tile) {
             var height = node.h + node.y;
             var width = node.w + node.x;
             for (var i = node.y; i < height; i++) {
                 for (var j = node.x; j < width; j++) {
-                        level[i][j] = node.rgba;
+                    level[i][j] = tile || node.rgba;
                 }
             }
         };
 
+   
+
         var processNode = function (node) {
+
             
-            if (node.w + node.h) {
-                makeRoomSquare(node);
-            }
+            node.subspace = {
+                w: Math.floor(Math.random() * node.w),
+                h: Math.floor(Math.random() * node.h),
+                x: node.x,
+                y:node.y,
+            };
+
             
+            
+            makeRoomSquare(node);
+            makeRoomSquare(node.subspace, 2);
         };
 
 
@@ -59,26 +64,12 @@ var poop = {};
         };
 
         var getConstrainedRandomNumber = function (seed) {
-
-            
-
-            if (seed <= o.minRoomThickness) {
-                console.log('ARG');
-                return 0;
-            }
-           
             var num = Math.floor(Math.random() * (seed));
-
-            
-
-            if (num >= o.minRoomThickness) {
+            if ((num >= o.minSubdivideAmt) && (num <= (seed - o.minSubdivideAmt))) {
                 return num;
             }
-
-
             return getConstrainedRandomNumber(seed);
         };
-
 
         //can replace with different subdivisions
         var bisectNode = function (_divDir, _parent, _depth) {
@@ -96,16 +87,13 @@ var poop = {};
                 randomNumber = getConstrainedRandomNumber(width);
                 remainder = width - randomNumber;
                 children.push({
-                    
                     x : startx,
                     y : starty,
                     w: randomNumber,
                     h: height,
                     rgba: getRandomColor()
-
                 });
                 children.push({
-                    
                     x: startx + randomNumber,
                     y: starty,
                     w: remainder,
@@ -117,7 +105,6 @@ var poop = {};
                 randomNumber = getConstrainedRandomNumber(height);
                 remainder = height - randomNumber;
                 children.push({
-                    
                     x: startx,
                     y: starty,
                     w: width,
@@ -125,7 +112,6 @@ var poop = {};
                     rgba: getRandomColor()
                 });
                 children.push({
-                    
                     x: startx,
                     y: starty + randomNumber,
                     w: width,
@@ -136,11 +122,8 @@ var poop = {};
             return children;
         };
         
-        var parentmostNode = {
-
-        };
-
-
+        var parentmostNode = {};
+        
         function generateTree(pnode, pheight) {
 
             var node = $.extend(pnode, {
@@ -152,21 +135,17 @@ var poop = {};
             });
             
             var height = pheight;
-
             var generateLeaf = function(node, height) {
-                if (height === 0) {
+                if (height === 0 || node.w <= o.minParentWidth || node.h <= o.minParentWidth) {
                     processNode(node);
                     return node;
                 }
-
                 var temp = node;
                 var childLength = temp.children ? temp.children.length : 0;
-
                 if (!childLength) {
                     temp.children = bisectNode(height % 2, temp);
                     generateLeaf(temp, height);
                 }
-                
                 for (var i = 0; i < childLength; i++) {
                     generateLeaf(temp.children[i], height - 1);
                 }
