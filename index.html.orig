@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <script type="text/javascript" src="akihabara/src/akihabara.js"></script>
-    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="resources/jquery-1.8.3.min.js"></script>
     <script src="resources/level_generator.js"></script>
 
     <!--	    <script type="text/javascript" src="akihabara/src/input.js"></script>
@@ -59,12 +59,20 @@
 
         var levelGen = function () {
             var level = poop.generateRandomLevel({
+<<<<<<< HEAD
+                width: 110,
+                height: 70,
+                divisions: 8,
+                minRoomWidth: 10,
+                minRoomHeight: 10
+=======
                 width: 250,
                 height: 150,
-                divisions: 100,
-                minSubdivideAmt: 7,
-                minParentWidth: 35
+                divisions: 2,
+                minSubdivideAmt: 10,
+                minParentWidth: 25
                 
+>>>>>>> f12663bb77b91f3373533f9c0547ee29710f4f20
 
             });
             

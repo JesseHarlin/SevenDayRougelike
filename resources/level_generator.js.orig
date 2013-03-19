@@ -40,6 +40,25 @@ var poop = {};
 
         var processNode = function (node) {
 
+<<<<<<< HEAD
+            for (var i = node.starty; i < height; i++) {
+                
+                for (var j = node.startx; j < width; j++) {
+                    
+                    //if (i == node.starty || j == node.startx ||
+                    //    i == endhDepth || j == endwDepth) {
+                        
+                    //    level[i][j] = wall;
+                    //} else {
+                        level[i][j] = node.color;
+                    //}
+                }
+                
+            }
+            //floor = (floor + 1) % 16;
+
+            //console.log('floor',floor);
+=======
             
             node.subspace = {
                 w: Math.floor(Math.random() * node.w),
@@ -50,8 +69,9 @@ var poop = {};
 
             
             
-            //makeRoomSquare(node);
+            makeRoomSquare(node);
             makeRoomSquare(node.subspace, 2);
+>>>>>>> f12663bb77b91f3373533f9c0547ee29710f4f20
         };
 
 
@@ -140,6 +160,17 @@ var poop = {};
                     processNode(node);
                     return node;
                 }
+<<<<<<< HEAD
+            } else {
+                leafpile[childLeafName] = bisectNode(i % 2, leafpile);
+            }
+
+            leafpile = start;
+
+
+            var x = leafpile;
+            console.log('node',x);
+=======
                 var temp = node;
                 var childLength = temp.children ? temp.children.length : 0;
                 if (!childLength) {
@@ -152,6 +183,7 @@ var poop = {};
             };
             generateLeaf(pnode, pheight);
             return pnode;
+>>>>>>> f12663bb77b91f3373533f9c0547ee29710f4f20
         }
 
 
