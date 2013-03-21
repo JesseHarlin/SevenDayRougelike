@@ -36,42 +36,47 @@ var poop = {};
             }
         };
 
-   
+        var colorCentroid = function (node, tile) {
+
+            console.log(node.centroidX, node.centroidY);
+
+           
+                level[node.centroidY][node.centroidX] = tile;
+            
+            
+
+        };
 
         var processNode = function (node) {
 
-<<<<<<< HEAD
-            for (var i = node.starty; i < height; i++) {
-                
-                for (var j = node.startx; j < width; j++) {
-                    
-                    //if (i == node.starty || j == node.startx ||
-                    //    i == endhDepth || j == endwDepth) {
-                        
-                    //    level[i][j] = wall;
-                    //} else {
-                        level[i][j] = node.color;
-                    //}
-                }
-                
-            }
-            //floor = (floor + 1) % 16;
+            var _w = Math.floor(Math.random() * node.w * 0.5) + node.w * 0.5;
+            var _h = Math.floor(Math.random() * node.h * 0.5) + node.h * 0.5;
 
-            //console.log('floor',floor);
-=======
-            
+            var _remaindH = Math.floor((node.h - _h)/2);
+            var _remaindW = Math.floor((node.w - _w) / 2);
+
             node.subspace = {
-                w: Math.floor(Math.random() * node.w),
-                h: Math.floor(Math.random() * node.h),
-                x: node.x,
-                y:node.y,
+                w: _w,
+                h: _h,
+                x: node.x + _remaindW,
+                y: node.y + _remaindH,
             };
 
+            node.subspace.centroidX = Math.round(node.subspace.x + (_w / 2));
+            node.subspace.centroidY = Math.round(node.subspace.y + (_h / 2));
             
+
+            //makeRoomSquare(node);
             
-            makeRoomSquare(node);
+<<<<<<< HEAD
+            //makeRoomSquare(node);
+=======
+
+>>>>>>> cbe3d994f861ce24607676c60da525969ba633f6
             makeRoomSquare(node.subspace, 2);
->>>>>>> f12663bb77b91f3373533f9c0547ee29710f4f20
+
+            colorCentroid(node.subspace, 4);
+
         };
 
 
@@ -160,17 +165,6 @@ var poop = {};
                     processNode(node);
                     return node;
                 }
-<<<<<<< HEAD
-            } else {
-                leafpile[childLeafName] = bisectNode(i % 2, leafpile);
-            }
-
-            leafpile = start;
-
-
-            var x = leafpile;
-            console.log('node',x);
-=======
                 var temp = node;
                 var childLength = temp.children ? temp.children.length : 0;
                 if (!childLength) {
@@ -183,7 +177,6 @@ var poop = {};
             };
             generateLeaf(pnode, pheight);
             return pnode;
->>>>>>> f12663bb77b91f3373533f9c0547ee29710f4f20
         }
 
 

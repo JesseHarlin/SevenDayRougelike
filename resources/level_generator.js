@@ -36,22 +36,43 @@ var poop = {};
             }
         };
 
-   
+        var colorCentroid = function (node, tile) {
+
+            console.log(node.centroidX, node.centroidY);
+
+           
+                level[node.centroidY][node.centroidX] = tile;
+            
+            
+
+        };
 
         var processNode = function (node) {
 
-            
+            var _w = Math.floor(Math.random() * node.w * 0.5) + node.w * 0.5;
+            var _h = Math.floor(Math.random() * node.h * 0.5) + node.h * 0.5;
+
+            var _remaindH = Math.floor((node.h - _h)/2);
+            var _remaindW = Math.floor((node.w - _w) / 2);
+
             node.subspace = {
-                w: Math.floor(Math.random() * node.w),
-                h: Math.floor(Math.random() * node.h),
-                x: node.x,
-                y:node.y,
+                w: _w,
+                h: _h,
+                x: node.x + _remaindW,
+                y: node.y + _remaindH,
             };
 
+            node.subspace.centroidX = Math.floor(node.subspace.x + (_w / 2));
+            node.subspace.centroidY = Math.floor(node.subspace.y + (_h / 2));
             
+
+            makeRoomSquare(node);
             
-            //makeRoomSquare(node);
+
             makeRoomSquare(node.subspace, 2);
+
+            colorCentroid(node.subspace, 4);
+
         };
 
 
