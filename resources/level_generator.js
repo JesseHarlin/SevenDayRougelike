@@ -66,7 +66,7 @@ var poop = {};
             node.subspace.centroidY = Math.floor(node.subspace.y + (_h / 2));
             
 
-            makeRoomSquare(node);
+            //makeRoomSquare(node);
             
 
             makeRoomSquare(node.subspace, 2);
