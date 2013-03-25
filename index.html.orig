@@ -32,12 +32,15 @@
         }
     </style>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-    <title>Capstone</title>
+    <title>Level  Generator</title>
 </head>
 <body>
     <button id="smackit">GEN</button>
     <div id="derp">
     </div>
+    
+    
+
 </body>
 <style>
     td
@@ -50,6 +53,9 @@
     table {
         border-collapse: collapse
     }
+
+
+
 </style>
 <script>
 
@@ -62,14 +68,14 @@
                 width: 250,
                 height: 150,
 <<<<<<< HEAD
-                divisions: 100,
-                minSubdivideAmt: 7,
-                minParentWidth: 35
+                divisions: 90,
+                minSubdivideAmt: 8,
+                minParentWidth: 25
 =======
-                divisions: 6,
-                minSubdivideAmt: 5,
-                minParentWidth: 15
->>>>>>> cbe3d994f861ce24607676c60da525969ba633f6
+                divisions: 3,
+                minSubdivideAmt: 15,
+                minParentWidth: 35
+>>>>>>> d3bd04da7af10752488d50d2982f08968b22d0a9
                 
 
             });

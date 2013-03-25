@@ -13,6 +13,8 @@ var poop = {};
         var wall = 2;
 
         var randomfloor = 3;
+        var leaves = [];
+
 
         var populateNothingness = function () {
             var level = [];
@@ -37,21 +39,21 @@ var poop = {};
         };
 
         var colorCentroid = function (node, tile) {
-
-            console.log(node.centroidX, node.centroidY);
-
-           
-                level[node.centroidY][node.centroidX] = tile;
-            
-            
-
+                level[node.centroid.y][node.centroid.x] = tile;
         };
 
-        var processNode = function (node) {
+        var colorCorners = function (node, tile) {
+            level[node.corner.tl.y][node.corner.tl.x] = tile;
+            level[node.corner.tr.y][node.corner.tr.x] = tile;
+            level[node.corner.bl.y][node.corner.bl.x] = tile;
+            level[node.corner.br.y][node.corner.br.x] = tile;
+        };
 
-            var _w = Math.floor(Math.random() * node.w * 0.5) + node.w * 0.5;
-            var _h = Math.floor(Math.random() * node.h * 0.5) + node.h * 0.5;
+        var processLeaf = function (node) {
 
+            var _w = Math.floor((Math.random() * node.w * 0.5) + node.w * 0.5);
+            var _h = Math.floor((Math.random() * node.h * 0.5) + node.h * 0.5);
+            
             var _remaindH = Math.floor((node.h - _h)/2);
             var _remaindW = Math.floor((node.w - _w) / 2);
 
@@ -62,17 +64,36 @@ var poop = {};
                 y: node.y + _remaindH,
             };
 
-            node.subspace.centroidX = Math.floor(node.subspace.x + (_w / 2));
-            node.subspace.centroidY = Math.floor(node.subspace.y + (_h / 2));
+            //centroid
+            node.subspace.centroid = {
+                x: Math.floor(node.subspace.x + (_w / 2)),
+                y: Math.floor(node.subspace.y + (_h / 2))
+            };
+
+            //corner
+            node.subspace.corner = {
+                tl : {
+                    x: node.subspace.x,
+                    y: node.subspace.y
+                },
+                tr : {
+                    x: (node.subspace.x + node.subspace.w) -1,
+                    y: node.subspace.y 
+                },
+                bl : {
+                    x: node.subspace.x,
+                    y: (node.subspace.y + node.subspace.h) -1
+                },
+                br : {
+                    x: (node.subspace.x + node.subspace.w) - 1,
+                    y: (node.subspace.y + node.subspace.h) - 1
+                }
+            };
+           
             
+     
 
-            //makeRoomSquare(node);
-            
-
-            makeRoomSquare(node.subspace, 2);
-
-            colorCentroid(node.subspace, 4);
-
+            leaves.push(node);
         };
 
 
@@ -158,7 +179,7 @@ var poop = {};
             var height = pheight;
             var generateLeaf = function(node, height) {
                 if (height === 0 || node.w <= o.minParentWidth || node.h <= o.minParentWidth) {
-                    processNode(node);
+                    processLeaf(node);
                     return node;
                 }
                 var temp = node;
@@ -182,13 +203,89 @@ var poop = {};
         var tree = generateTree(parentmostNode, depth);
 
 
-        console.log('generated Tree', tree);
+        var traverseTree = function (_tree, singleCallback, batchCallback, d) {
+            var traverseLeaf = function (node, dep) {
+
+                singleCallback.call(this, node, dep);
+
+                var childLength = node.children ? node.children.length : 0;
+                if (childLength) {
+                    dep--;
+                    var batch = [];
+                    for (var i = 0; i < childLength; i++) {
+                        traverseLeaf(node.children[i], dep);
+                        batch.push(node.children[i]);
+                    }
+                    batchCallback.call(this, batch);
+                }
+            };
+
+            traverseLeaf(tree, d);
+        };
+
+        var  singleCallback = function (node, d) {
+            //makeRoomSquare(n);
+
+            if (!node.subspace) {
+                console.log('parent', d, node);
+            }
+
+            if (node.subspace) {
+                
+                console.log('leaf', d, node);
+
+                makeRoomSquare(node.subspace, 2);
+                colorCentroid(node.subspace, 4);
+                colorCorners(node.subspace, 4);
+            }
+        };
 
 
-        
+        var drawRightAngle = function (x1, x2, y1, y2, c) {
 
 
-        
+            if (x1 > x2) {
+
+                for (var i = x2; i < x1; i++) {
+
+                    //console.log('-->',i);
+
+                    level[y1][i] = c;
+                }
+            } else {
+                for (var i = x1; i < x2; i++) {
+                    
+                    //console.log('-->', i);
+
+                    level[y1][i] = c;
+                }
+            }
+
+        };
+
+
+        var batchCallback = function (children) {
+
+            if (children[0].subspace && children[1].subspace) {
+
+
+                var y0 = children[0].subspace.centroid.y;
+                var y1 = children[1].subspace.centroid.y;
+                var x0 = children[0].subspace.centroid.x;
+                var x1 = children[1].subspace.centroid.x;
+                var c0 = '#00CCFF';
+                var c1 = '#FFcc00';
+
+
+                drawRightAngle(x0, x1, y0, y1, c0);
+
+            }
+
+        };
+
+        console.log("DEPTH",depth);
+
+        traverseTree(tree, singleCallback, batchCallback, depth);
 
         return level;
     };
