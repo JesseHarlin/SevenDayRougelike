@@ -13,6 +13,8 @@ var poop = {};
         var wall = 2;
 
         var randomfloor = 3;
+        var leaves = [];
+
 
         var populateNothingness = function () {
             var level = [];
@@ -37,21 +39,13 @@ var poop = {};
         };
 
         var colorCentroid = function (node, tile) {
-
-            console.log(node.centroidX, node.centroidY);
-
-           
                 level[node.centroidY][node.centroidX] = tile;
-            
-            
-
         };
 
-        var processNode = function (node) {
+        var processLeaf = function (node) {
 
             var _w = Math.floor(Math.random() * node.w * 0.5) + node.w * 0.5;
             var _h = Math.floor(Math.random() * node.h * 0.5) + node.h * 0.5;
-
             var _remaindH = Math.floor((node.h - _h)/2);
             var _remaindW = Math.floor((node.w - _w) / 2);
 
@@ -62,17 +56,13 @@ var poop = {};
                 y: node.y + _remaindH,
             };
 
-            node.subspace.centroidX = Math.round(node.subspace.x + (_w / 2));
-            node.subspace.centroidY = Math.round(node.subspace.y + (_h / 2));
+            node.subspace.centroidX = Math.floor(node.subspace.x + (_w / 2));
+            node.subspace.centroidY = Math.floor(node.subspace.y + (_h / 2));
             
-
-            //makeRoomSquare(node);
             
+ 
 
-            makeRoomSquare(node.subspace, 2);
-
-            colorCentroid(node.subspace, 4);
-
+            leaves.push(node);
         };
 
 
@@ -158,7 +148,7 @@ var poop = {};
             var height = pheight;
             var generateLeaf = function(node, height) {
                 if (height === 0 || node.w <= o.minParentWidth || node.h <= o.minParentWidth) {
-                    processNode(node);
+                    processLeaf(node);
                     return node;
                 }
                 var temp = node;
@@ -181,14 +171,39 @@ var poop = {};
 
         var tree = generateTree(parentmostNode, depth);
 
+        console.log(tree);
 
-        console.log('generated Tree', tree);
+        //makeRoomSquare(node);
+        //makeRoomSquare(node.subspace, 2);
+        //colorCentroid(node.subspace, 4);
+
+        var traversenode = function (_tree, callback, depth) {
+            var _depth = depth;
+            var traverseLeaf = function (node, _depth) {
+
+                if (depth === 0) {
+                    return;
+                }
+
+                var temp = node;
+                var childLength = temp.children ? temp.children.length : 0;
+                if (!childLength) {
+                    
+                }
 
 
-        
+                traverseLeaf(_depth-1);
+            };
+
+           traverseLeaf(tree);
+
+        };
+
+        traversenode(tree, function (n) {
+            console.log(n);
+        }, depth);
 
 
-        
 
         return level;
     };
