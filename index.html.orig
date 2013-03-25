@@ -32,15 +32,12 @@
         }
     </style>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-    <title>Level  Generator</title>
+    <title>Capstone</title>
 </head>
 <body>
     <button id="smackit">GEN</button>
     <div id="derp">
     </div>
-    
-    
-
 </body>
 <style>
     td
@@ -48,14 +45,11 @@
         width: 3px;
         height: 3px;
         text-align: center;
-        border:1px white solid
+        border:0.5px white solid
     }
     table {
         border-collapse: collapse
     }
-
-
-
 </style>
 <script>
 
@@ -67,9 +61,15 @@
             var level = poop.generateRandomLevel({
                 width: 250,
                 height: 150,
-                divisions: 3,
-                minSubdivideAmt: 15,
-                minParentWidth: 35
+<<<<<<< HEAD
+                divisions: 7,
+                minSubdivideAmt: 7,
+                minParentWidth: 15
+=======
+                divisions: 90,
+                minSubdivideAmt: 1,
+                minParentWidth: 3
+>>>>>>> c55f88d1a5feaa987b2a5e594c0154c0fbca0693
                 
 
             });
