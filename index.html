@@ -45,8 +45,8 @@
 <style>
     td
     {
-        width: 3px;
-        height: 3px;
+        width: 1px;
+        height: 1px;
         text-align: center;
         border:0px white solid
     }
@@ -65,11 +65,17 @@
 
         var levelGen = function () {
             var level = poop.generateRandomLevel({
-                width: 250,
-                height: 150,
-                divisions: 100,
-                minSubdivideAmt: 2,
-                minParentWidth: 3
+                width: 625,
+                height: 315,
+                divisions: 15,
+                minSubdivideAmt: 9,
+                minParentWidth: 20,
+                corners: false,
+                pathThickness: [1, 2],
+                porportionTolerance: 5,
+                randomRoomSizeRandomToFixedRatio: [0.8, 0.2],
+                porportionTriesUntilBreakSafety: 1000
+                
                 
 
             });
@@ -78,21 +84,21 @@
             var table = "<table>";
             var colorlist = [
                 "#000000",
-                "rgba(172, 236, 68, 0.7)",
-                "rgba(255, 32, 7, 0.7)",
-                "rgba(225, 78, 212, 0.8)",
-                "#37F8A2",
-                "#E5DFA0",
-                "#E14ED4",
-                "#905D9D",
-                "#350882",
-                "#1A9261",
-                "#FC397B",
-                "#FFFFFF",
-                "#FF00FF",
-                "#0000FF",
-                "#FF0000",
-                "#0F0FF0"
+                "rgba(172, 236, 68, 0.6)",
+                "rgba(255, 32, 7, 0.6)",
+                "rgba(225, 78, 212, 0.6)",
+                "rgba(128,125,0,0.6)",
+                "rgba(128,255,0,0.6)",
+                "rgba(128,255,125,0.6)",
+                "rgba(255,255,0,0.6)",
+                "rgba(128,0,0,128,0.6)",
+                "rgba(128,0,128,0.6)",
+                "rgba(128,0,200,0.4)",
+                "rgba(128,255,0,0.4)",
+                "rgba(128,255,0,0.4)",
+                "rgba(128,255,0,0.4)",
+                "rgba(128,255,0,0.4)",
+                "rgba(128,255,0,0.4)"
             ];
             for (var i = 0; i < levelLength; i++) {
                 table += "<tr>";
