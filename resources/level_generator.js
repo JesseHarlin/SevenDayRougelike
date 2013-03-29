@@ -51,8 +51,14 @@ var poop = {};
 
         var processLeaf = function(node) {
 
-            var _w = Math.floor((Math.random() * node.w * 0.5) + node.w * 0.5);
-            var _h = Math.floor((Math.random() * node.h * 0.5) + node.h * 0.5);
+            var count = 0;
+            do {
+                
+                var _w = Math.floor((Math.random() * node.w * o.randomRoomSizeRandomToFixedRatio[0]) + node.w * o.randomRoomSizeRandomToFixedRatio[1]);
+                var _h = Math.floor((Math.random() * node.h * o.randomRoomSizeRandomToFixedRatio[0]) + node.h * o.randomRoomSizeRandomToFixedRatio[1]);
+                count++;
+                
+            } while (((_w / _h) > o.porportionTolerance || (_h / _w) > o.porportionTolerance) && count < o.porportionTriesUntilBreakSafety);
 
             var _remaindH = Math.floor((node.h - _h) / 2);
             var _remaindW = Math.floor((node.w - _w) / 2);
@@ -164,6 +170,8 @@ var poop = {};
 
         var parentmostNode = {};
 
+        
+
         function generateTree(pnode, pheight) {
 
             var node = $.extend(pnode, {
@@ -175,7 +183,8 @@ var poop = {};
             });
 
             var height = pheight;
-            var generateLeaf = function(node, height) {
+            var generateLeaf = function (node, height) {
+
                 if (height === 0 || node.w <= o.minParentWidth || node.h <= o.minParentWidth) {
                     processLeaf(node);
                     return node;
@@ -224,47 +233,58 @@ var poop = {};
             //makeRoomSquare(n);
 
             if (!node.subspace) {
-                console.log('parent', d, node);
+                //console.log('parent', d, node);
             }
 
             if (node.subspace) {
 
-                console.log('leaf', d, node);
+                //console.log('leaf', d, node);
 
                 makeRoomSquare(node.subspace, 2);
                 colorCentroid(node.subspace, 4);
-                colorCorners(node.subspace, 4);
+
+                if (o.corners) {
+                    colorCorners(node.subspace, 0);
+                }
+
             }
         };
 
 
-        var drawRightAngle = function(x1, x2, y1, y2, c) {
+        
+
+        var drawRightAngle = function (x1, x2, y1, y2, c) {
+            
+            var thickness = Math.floor(Math.random() * o.pathThickness[1]) + o.pathThickness[0];
 
 
             if (x1 > x2) {
-
-                for (var i = x2; i < x1; i++) {
-                    level[y1][i] = 2;
-                   
+                for (var i = x2; i <= x1; i++) {
+                    for (var k = 0; k < thickness; k++) {
+                        level[y2 + k][i] = 2;
+                    }
                 }
             } else {
-                for (var i = x1; i < x2; i++) {
-                    level[y1][i] = 2;
+                for (var i = x1; i <= x2; i++) {
+                    for (var k = 0; k < thickness; k++) {
+                        level[y2 - k][i] = 2;
+                    }
                 }
             }
 
             if (y1 > y2) {
-
-                for (var j = y2; j < y1; j++) {
-                    level[j][x2] = 2;
+                for (var j = y2; j <= y1; j++) {
+                    for (var k = 0; k < thickness; k++) {
+                        level[j][x1 + k] = 2;
+                    }
                 }
-
             } else {
-                for (var j = y1; j < y2; j++) {
-                    level[j][x2] = 2;
+                for (var j = y1; j <= y2; j++) {
+                    for (var k = 0; k < thickness; k++) {
+                        level[j][x1 - k] = 2;
+                    }
                 }
             }
-
 
         };
 
@@ -293,7 +313,7 @@ var poop = {};
 
         };
 
-        console.log("DEPTH", depth);
+        //console.log("DEPTH", depth);
 
         traverseTree(tree, singleCallback, batchCallback, depth);
 
