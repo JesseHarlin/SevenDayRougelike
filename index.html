@@ -45,10 +45,10 @@
 <style>
     td
     {
-        width: 1px;
-        height: 1px;
+        width: 2px;
+        height: 2px;
         text-align: center;
-        border:0px white solid
+        border:px white solid
     }
     table {
         border-collapse: collapse
@@ -65,16 +65,16 @@
 
         var levelGen = function () {
             var level = poop.generateRandomLevel({
-                width: 625,
-                height: 315,
-                divisions: 15,
-                minSubdivideAmt: 9,
-                minParentWidth: 20,
-                corners: false,
+                width: 600,
+                height: 300,
+                divisions: 25,
+                minSubdivideAmt: 13,
+                minParentWidth: 27,
+                corners: true,
                 pathThickness: [1, 2],
                 porportionTolerance: 5,
                 randomRoomSizeRandomToFixedRatio: [0.8, 0.2],
-                porportionTriesUntilBreakSafety: 1000
+                porportionTriesUntilBreakSafety: 1500
                 
                 
 
