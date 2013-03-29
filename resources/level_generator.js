@@ -1,10 +1,10 @@
 ﻿
 var poop = {};
 
-(function () {
-    
+(function() {
 
-    poop.generateRandomLevel = function (o) {
+
+    poop.generateRandomLevel = function(o) {
 
         //Tiles
         var nothingness = 0;
@@ -16,7 +16,7 @@ var poop = {};
         var leaves = [];
 
 
-        var populateNothingness = function () {
+        var populateNothingness = function() {
             var level = [];
             for (var i = 0; i < o.height; i++) {
                 var tr = [];
@@ -28,7 +28,7 @@ var poop = {};
             return level;
         };
 
-        var makeRoomSquare = function (node, tile) {
+        var makeRoomSquare = function(node, tile) {
             var height = node.h + node.y;
             var width = node.w + node.x;
             for (var i = node.y; i < height; i++) {
@@ -38,23 +38,23 @@ var poop = {};
             }
         };
 
-        var colorCentroid = function (node, tile) {
-                level[node.centroid.y][node.centroid.x] = tile;
+        var colorCentroid = function(node, tile) {
+            level[node.centroid.y][node.centroid.x] = tile;
         };
 
-        var colorCorners = function (node, tile) {
+        var colorCorners = function(node, tile) {
             level[node.corner.tl.y][node.corner.tl.x] = tile;
             level[node.corner.tr.y][node.corner.tr.x] = tile;
             level[node.corner.bl.y][node.corner.bl.x] = tile;
             level[node.corner.br.y][node.corner.br.x] = tile;
         };
 
-        var processLeaf = function (node) {
+        var processLeaf = function(node) {
 
             var _w = Math.floor((Math.random() * node.w * 0.5) + node.w * 0.5);
             var _h = Math.floor((Math.random() * node.h * 0.5) + node.h * 0.5);
-            
-            var _remaindH = Math.floor((node.h - _h)/2);
+
+            var _remaindH = Math.floor((node.h - _h) / 2);
             var _remaindW = Math.floor((node.w - _w) / 2);
 
             node.subspace = {
@@ -72,25 +72,23 @@ var poop = {};
 
             //corner
             node.subspace.corner = {
-                tl : {
+                tl: {
                     x: node.subspace.x,
                     y: node.subspace.y
                 },
-                tr : {
-                    x: (node.subspace.x + node.subspace.w) -1,
-                    y: node.subspace.y 
+                tr: {
+                    x: (node.subspace.x + node.subspace.w) - 1,
+                    y: node.subspace.y
                 },
-                bl : {
+                bl: {
                     x: node.subspace.x,
-                    y: (node.subspace.y + node.subspace.h) -1
+                    y: (node.subspace.y + node.subspace.h) - 1
                 },
-                br : {
+                br: {
                     x: (node.subspace.x + node.subspace.w) - 1,
                     y: (node.subspace.y + node.subspace.h) - 1
                 }
-            };
-           
-            
+            };            
      
 
             leaves.push(node);
@@ -105,7 +103,7 @@ var poop = {};
             return 'rgba(' + r + ',' + g + ',' + b + ', 0.4)';
         };
 
-        var getConstrainedRandomNumber = function (seed) {
+        var getConstrainedRandomNumber = function(seed) {
             var num = Math.floor(Math.random() * (seed));
             if ((num >= o.minSubdivideAmt) && (num <= (seed - o.minSubdivideAmt))) {
                 return num;
@@ -114,9 +112,9 @@ var poop = {};
         };
 
         //can replace with different subdivisions
-        var bisectNode = function (_divDir, _parent, _depth) {
+        var bisectNode = function(_divDir, _parent, _depth) {
             var children = [];
-            
+
             var startx = _parent.x;
             var starty = _parent.y;
             var width = _parent.w;
@@ -129,8 +127,8 @@ var poop = {};
                 randomNumber = getConstrainedRandomNumber(width);
                 remainder = width - randomNumber;
                 children.push({
-                    x : startx,
-                    y : starty,
+                    x: startx,
+                    y: starty,
                     w: randomNumber,
                     h: height,
                     rgba: getRandomColor()
@@ -163,9 +161,9 @@ var poop = {};
             }
             return children;
         };
-        
+
         var parentmostNode = {};
-        
+
         function generateTree(pnode, pheight) {
 
             var node = $.extend(pnode, {
@@ -175,7 +173,7 @@ var poop = {};
                 h: o.height,
                 rgba: getRandomColor()
             });
-            
+
             var height = pheight;
             var generateLeaf = function(node, height) {
                 if (height === 0 || node.w <= o.minParentWidth || node.h <= o.minParentWidth) {
@@ -197,14 +195,13 @@ var poop = {};
         }
 
 
-
         var depth = o.divisions;
 
         var tree = generateTree(parentmostNode, depth);
 
 
-        var traverseTree = function (_tree, singleCallback, batchCallback, d) {
-            var traverseLeaf = function (node, dep) {
+        var traverseTree = function(_tree, singleCallback, batchCallback, d) {
+            var traverseLeaf = function(node, dep) {
 
                 singleCallback.call(this, node, dep);
 
@@ -223,7 +220,7 @@ var poop = {};
             traverseLeaf(tree, d);
         };
 
-        var  singleCallback = function (node, d) {
+        var singleCallback = function(node, d) {
             //makeRoomSquare(n);
 
             if (!node.subspace) {
@@ -231,7 +228,7 @@ var poop = {};
             }
 
             if (node.subspace) {
-                
+
                 console.log('leaf', d, node);
 
                 makeRoomSquare(node.subspace, 2);
@@ -241,56 +238,67 @@ var poop = {};
         };
 
 
-        var drawRightAngle = function (x1, x2, y1, y2, c) {
+        var drawRightAngle = function(x1, x2, y1, y2, c) {
 
 
             if (x1 > x2) {
 
                 for (var i = x2; i < x1; i++) {
-
-                    //console.log('-->',i);
-
-                    level[y1][i] = c;
+                    level[y1][i] = 2;
+                   
                 }
             } else {
                 for (var i = x1; i < x2; i++) {
-                    
-                    //console.log('-->', i);
-
-                    level[y1][i] = c;
+                    level[y1][i] = 2;
                 }
             }
+
+            if (y1 > y2) {
+
+                for (var j = y2; j < y1; j++) {
+                    level[j][x2] = 2;
+                }
+
+            } else {
+                for (var j = y1; j < y2; j++) {
+                    level[j][x2] = 2;
+                }
+            }
+
 
         };
 
 
-        var batchCallback = function (children) {
+        var batchCallback = function(children) {
 
+            while (children[0].children) {
+                children[0] = children[0].children[Math.floor(Math.random() * 2)];
+            }
+            
+            while (children[1].children) {
+                children[1] = children[1].children[Math.floor(Math.random() * 2)];
+            }
+
+            //connect room stuff
             if (children[0].subspace && children[1].subspace) {
-
-
                 var y0 = children[0].subspace.centroid.y;
                 var y1 = children[1].subspace.centroid.y;
                 var x0 = children[0].subspace.centroid.x;
                 var x1 = children[1].subspace.centroid.x;
                 var c0 = '#00CCFF';
                 var c1 = '#FFcc00';
-
-
                 drawRightAngle(x0, x1, y0, y1, c0);
 
             }
 
         };
 
-        console.log("DEPTH",depth);
+        console.log("DEPTH", depth);
 
         traverseTree(tree, singleCallback, batchCallback, depth);
 
         return level;
     };
-
-
 
 
 })();
