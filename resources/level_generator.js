@@ -317,6 +317,143 @@ var poop = {};
 
         traverseTree(tree, singleCallback, batchCallback, depth);
 
+
+        var processLevel = function (l, callback) {
+            var Levellength = l.length;
+            for (var i = 0; i < Levellength; i++) {
+                var rowLength = l[i].length;
+                for (var j = 0; j < rowLength; j++) {
+
+                    var c = l[i][j];
+
+                    var c_tl = undefined;
+                    var c_t = undefined;
+                    var c_tr = undefined;
+
+                    var c_l = undefined;
+                    var c_r = undefined;
+
+                    var c_bl = undefined;
+                    var c_b = undefined;
+                    var c_br = undefined;
+
+
+                    if (typeof l[i - 1] != 'undefined') {
+                        if (typeof l[i - 1][j - 1] != 'undefined') {
+                            c_tl = l[i - 1][j - 1];
+                        }
+                        if (typeof l[i - 1][j] != 'undefined') {
+                            c_t = l[i - 1][j];
+                        }
+                        if (typeof l[i - 1][j + 1] != 'undefined') {
+                            c_tr = l[i - 1][j + 1];
+                        }
+                    }
+
+                    if (typeof l[i + 1] != 'undefined') {
+                        if (typeof l[i + 1][j - 1] != 'undefined') {
+                            c_bl = l[i + 1][j - 1];
+                        }
+                        if (typeof l[i + 1][j] != 'undefined') {
+                            c_b = l[i + 1][j];
+                        }
+                        if (typeof l[i + 1][j + 1] != 'undefined') {
+                            c_br = l[i + 1][j + 1];
+                        }
+                    }
+
+                    if (typeof l[i][j - 1] != 'undefined') {
+                        c_l = l[i][j - 1];
+                    }
+                    if (typeof l[i][j + 1] != 'undefined') {
+                        c_r = l[i][j + 1];
+                    }
+
+                    var obj = {
+                        tl: c_tl,
+                        t: c_t,
+                        tr: c_tr,
+                        cl: c_l,
+                        c: c,
+                        cr: c_r,
+                        bl: c_bl,
+                        b: c_b,
+                        br: c_br
+                    };
+
+                    callback(i, j, obj);
+                }
+            }        
+        };
+
+
+        var generateWalls = function (c, x, y) {
+            var floor = 2;
+            var blank = 0;
+            var wall = 9;
+            if (c.c === blank) {
+                if (
+                    c.tl === floor ||
+                    c.t === floor ||
+                    c.tr === floor ||
+                    c.cl === floor ||
+                    c.cr === floor ||
+                    c.bl === floor ||
+                    c.b === floor ||
+                    c.br === floor) {
+                    
+                    level[x][y] = wall;
+                }
+            }
+        };
+
+
+        var modulateFloor = function (c, x, y) {
+            var floor = 2;
+            var blank = 0;
+            var wall = 9;
+
+            if (c.c === floor) {                
+
+
+                var rand = Math.floor(Math.random() * 25);
+                
+                if (rand === 1) {
+                    
+
+                    level[x][y] = 'rgba(255, 32, 25, 0.8)';
+                }
+
+
+            }
+
+
+        };
+
+        var cellcallback1 = function (x, y, cellmatrix) {
+
+
+            generateWalls(cellmatrix, x, y);
+
+
+            
+
+
+        };
+
+
+        var cellcallback2 = function (x, y, cellmatrix) {
+            
+
+            modulateFloor(cellmatrix, x, y);
+
+        };
+
+        processLevel(level, cellcallback1);
+
+        processLevel(level, cellcallback2);
+
+
         return level;
     };
 

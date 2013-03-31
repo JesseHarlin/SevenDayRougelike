@@ -45,10 +45,19 @@
 <style>
     td
     {
-        width: 1px;
-        height: 1px;
+<<<<<<< HEAD
+        width: 16px;
+        height: 16px;
         text-align: center;
-        border:0px white solid
+        border:px white solid
+=======
+        width: 32px;
+        height: 32px;
+        text-align: center;
+        border: 1px white solid;
+        color: #99FF55;
+        font-size: 70%
+>>>>>>> 1e60ff22595d950ddeb12f10cf0d0b627bf63d55
     }
     table {
         border-collapse: collapse
@@ -62,32 +71,43 @@
 
 
     $(document).ready(function () {
-
+		
+		var _width = 1024;
+		var _height = 325;
+		var cellsize = 16;
+		
         var levelGen = function () {
             var level = poop.generateRandomLevel({
 <<<<<<< HEAD
-                width: 250,
-                height: 150,
-                divisions: 100,
-                minSubdivideAmt: 2,
-                minParentWidth: 3
+                width: _width,
+                height: _height,
+                divisions: 125,
+                minSubdivideAmt: 3,
+                minParentWidth: 7,
 =======
-                width: 625,
-                height: 315,
+                width: 22,
+                height: 16,
                 divisions: 15,
-                minSubdivideAmt: 9,
-                minParentWidth: 20,
+                minSubdivideAmt: 5,
+                minParentWidth: 15,
+>>>>>>> 1e60ff22595d950ddeb12f10cf0d0b627bf63d55
                 corners: false,
-                pathThickness: [1, 2],
+                pathThickness: [1, 1],
                 porportionTolerance: 5,
-                randomRoomSizeRandomToFixedRatio: [0.8, 0.2],
-                porportionTriesUntilBreakSafety: 1000
+                randomRoomSizeRandomToFixedRatio: [0.9, 0.09],
+                porportionTriesUntilBreakSafety: 1500
                 
->>>>>>> b97ce5a7a268cc6eccb5d70fc54220b6df405adf
                 
 
             });
             
+			$('#derp').css({
+				width: _width * cellsize,
+				height: _height * cellsize
+			
+			})
+			
+			
             var levelLength = level.length;
             var table = "<table>";
             var colorlist = [
@@ -120,7 +140,7 @@
                         color = val;
                     }
 
-                    table += "<td style='background-color:" + color + "'></td>";
+                    table += "<td style='background-color:" + color + "'>"+i  +"-"+ j+"</td>";
                 }
                 table += "</tr>";
             }

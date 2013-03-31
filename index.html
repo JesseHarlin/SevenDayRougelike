@@ -25,72 +25,55 @@
 
     <!--<script type="text/javascript" src="src/game.js"></script>-->
     <style type="text/css">
-        BODY
-        {
-            -webkit-user-select: none;
-            margin: 0px;
-        }
+        BODY { -webkit-user-select: none; margin: 0px; }
     </style>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <title>Level  Generator</title>
 </head>
 <body>
     <button id="smackit">GEN</button>
-    <div id="derp">
+    <div id="frame">
+        <div id="derp">
+        </div>
     </div>
-    
-    
+
+
+
 
 </body>
 <style>
-    td
-    {
-        width: 16px;
-        height: 16px;
-        text-align: center;
-        border:px white solid
-    }
-    table {
-        border-collapse: collapse
-    }
-
-
-
+    td { width: 8px; height: 8px; text-align: center; border: 0px white solid; color: #99FF55; font-size: 70%; }
+    table { border-collapse: collapse; }
 </style>
 <script>
 
 
 
     $(document).ready(function () {
-		
-		var _width = 1024;
-		var _height = 325;
-		var cellsize = 16;
-		
+
+        var _thisWidth = 600;
+        var _thisHeight = 250;
+        var _cellSize = 8;
+
+
+
         var levelGen = function () {
             var level = poop.generateRandomLevel({
-                width: _width,
-                height: _height,
-                divisions: 125,
+                width: _thisWidth,
+                height: _thisHeight,
+                divisions: 76,
                 minSubdivideAmt: 3,
                 minParentWidth: 7,
-                corners: false,
+                corners: true,
                 pathThickness: [1, 1],
                 porportionTolerance: 5,
-                randomRoomSizeRandomToFixedRatio: [0.9, 0.09],
-                porportionTriesUntilBreakSafety: 1500
-                
-                
+                randomRoomSizeRandomToFixedRatio: [0.8, 0.2],
+                porportionTriesUntilBreakSafety: 1000
+
+
 
             });
-            
-			$('#derp').css({
-				width: _width * cellsize,
-				height: _height * cellsize
-			
-			})
-			
-			
+
             var levelLength = level.length;
             var table = "<table>";
             var colorlist = [
@@ -128,12 +111,20 @@
                 table += "</tr>";
             }
             table += "</table>";
-            
+
             $('#derp').html(table);
         };
 
         levelGen();
         $('#smackit').click(levelGen);
+
+
+
+        $('#frame').css({
+            width: (_thisWidth * _cellSize),
+            height: (_thisHeight * _cellSize)
+        });
+
     });
 
 </script>
