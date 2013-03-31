@@ -421,7 +421,7 @@ var poop = {};
                 if (rand === 1) {
                     
 
-                    level[x][y] = 'gba(255, 32, 0, 0.7)';
+                    level[x][y] = 'rgba(255, 32, 0, 0.7)';
                 }
 
 
