@@ -317,6 +317,121 @@ var poop = {};
 
         traverseTree(tree, singleCallback, batchCallback, depth);
 
+
+        var processLevel = function (l, callback) {
+            var Levellength = l.length;
+            for (var i = 0; i < Levellength; i++) {
+                var rowLength = l[i].length;
+                for (var j = 0; j < rowLength; j++) {
+
+                    var c = l[i][j];
+
+                    var c_tl;
+                    var c_t;
+                    var c_tr;
+
+                    var c_l;
+                    var c_r;
+
+                    var c_bl;
+                    var c_b;
+                    var c_br;
+
+
+                    if (typeof l[i - 1] != 'undefined') {
+                        if (typeof l[i - i][j - 1] != 'undefined') {
+                            c_tl = l[i - i][j - 1];
+                        }
+                        if (typeof l[i - i][j] != 'undefined') {
+                            c_t = l[i - i][j];
+                        }
+                        if (typeof l[i - i][j + 1] != 'undefined') {
+                            c_tr = l[i - i][j];
+                        }
+                    }
+
+                    if (typeof l[i + 1] != 'undefined') {
+                        if (typeof l[i + 1][j - 1] != 'undefined') {
+                            c_bl = l[i + 1][j - 1];
+                        }
+                        if (typeof l[i + 1][j] != 'undefined') {
+                            c_b = l[i + 1][j];
+                        }
+                        if (typeof l[i + 1][j + 1] != 'undefined') {
+                            c_br = l[i + 1][j + 1];
+                        }
+                    }
+
+                    if (typeof l[i][j - 1] != 'undefined') {
+                        c_l = l[i][j - 1];
+                    }
+                    if (typeof l[i][j + 1] != 'undefined') {
+                        c_r = l[i][j + 1];
+                    }
+
+                    var obj = {
+                        tl: c_tl,
+                        t: c_t,
+                        tr: c_tr,
+                        cl: c_l,
+                        c: c,
+                        cr: c_r,
+                        bl: c_bl,
+                        b: c_b,
+                        br: c_br
+                    };
+
+                    callback(i, j, obj);
+                }
+            }        
+        };
+
+
+        var generateWalls = function (c, x, y) {
+
+
+            var floor = 2;
+            var blank = 0;
+            var wall = '#6600ff';
+
+
+            if (c.c === blank) {
+                
+                if (c.cr === blank && c.br === floor && c.b === blank) {
+                    level[x][y] = wall;
+                }
+
+                if (c.b === blank && c.cl === blank && c.cr === floor) {
+                    level[x][y] = wall;
+                }
+
+                if (c.t === wall && c.cr === floor && c.cl === blank) {
+                    level[x][y] = wall;
+                }
+                
+                if (c.t === wall && c.cl === blank  && c.tr === floor && c.cr === blank) {
+                    level[x][y] = wall;
+                }
+
+            }
+
+
+
+        };
+
+
+        var cellcallback = function (x, y, cellmatrix) {
+
+
+            generateWalls(cellmatrix, x, y);
+
+        };
+
+        processLevel(level, cellcallback);
+
+
+
+
         return level;
     };
 

@@ -45,10 +45,12 @@
 <style>
     td
     {
-        width: 1px;
-        height: 1px;
+        width: 32px;
+        height: 32px;
         text-align: center;
-        border:0px white solid
+        border: 1px white solid;
+        color: #99FF55;
+        font-size: 70%
     }
     table {
         border-collapse: collapse
@@ -65,11 +67,11 @@
 
         var levelGen = function () {
             var level = poop.generateRandomLevel({
-                width: 625,
-                height: 315,
+                width: 22,
+                height: 16,
                 divisions: 15,
-                minSubdivideAmt: 9,
-                minParentWidth: 20,
+                minSubdivideAmt: 5,
+                minParentWidth: 15,
                 corners: false,
                 pathThickness: [1, 2],
                 porportionTolerance: 5,
@@ -112,7 +114,7 @@
                         color = val;
                     }
 
-                    table += "<td style='background-color:" + color + "'></td>";
+                    table += "<td style='background-color:" + color + "'>"+i  +"-"+ j+"</td>";
                 }
                 table += "</tr>";
             }
