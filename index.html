@@ -45,8 +45,8 @@
 <style>
     td
     {
-        width: 2px;
-        height: 2px;
+        width: 16px;
+        height: 16px;
         text-align: center;
         border:px white solid
     }
@@ -62,24 +62,35 @@
 
 
     $(document).ready(function () {
-
+		
+		var _width = 1024;
+		var _height = 325;
+		var cellsize = 16;
+		
         var levelGen = function () {
             var level = poop.generateRandomLevel({
-                width: 600,
-                height: 300,
-                divisions: 25,
-                minSubdivideAmt: 13,
-                minParentWidth: 27,
-                corners: true,
-                pathThickness: [1, 2],
+                width: _width,
+                height: _height,
+                divisions: 125,
+                minSubdivideAmt: 3,
+                minParentWidth: 7,
+                corners: false,
+                pathThickness: [1, 1],
                 porportionTolerance: 5,
-                randomRoomSizeRandomToFixedRatio: [0.8, 0.2],
+                randomRoomSizeRandomToFixedRatio: [0.9, 0.09],
                 porportionTriesUntilBreakSafety: 1500
                 
                 
 
             });
             
+			$('#derp').css({
+				width: _width * cellsize,
+				height: _height * cellsize
+			
+			})
+			
+			
             var levelLength = level.length;
             var table = "<table>";
             var colorlist = [
