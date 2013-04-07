@@ -103,8 +103,8 @@ function go() {
         if (level == null) {
             level = {
                 level: "begin",
-                x: 300,
-                y: 270,
+                x: 600,
+                y: 600,
                 introdialogue: false
             };
         }

@@ -5,25 +5,23 @@
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="resources/level_generator.js"></script>
 
-    <!--	    <script type="text/javascript" src="akihabara/src/input.js"></script>
-		<script type="text/javascript" src="akihabara/src/audio.js"></script>
-		<script type="text/javascript" src="akihabara/src/debug.js"></script>
-		<script type="text/javascript" src="akihabara/src/trigo.js"></script>
-		<script type="text/javascript" src="akihabara/src/plugins/topview.js"></script>
-		<script type="text/javascript" src="akihabara/src/gbox.js"></script>
-		<script type="text/javascript" src="akihabara/src/iphopad.js"></script>
-		<script type="text/javascript" src="akihabara/src/toys.js"></script>
-		<script type="text/javascript" src="akihabara/src/tile.js"></script>
-		<script type="text/javascript" src="akihabara/src/helpers.js"></script>
-		<script type="text/javascript" src="akihabara/src/tools.js"></script>
-		<script type="text/javascript" src="akihabara/src/gamecycle.js"></script>
-		<script type="text/javascript" src="akihabara/src/devices.js"></script>
-
-	
-		<script type="text/javascript" src="src/player.js"></script>-->
+    <script type="text/javascript" src="akihabara/src/input.js"></script>
+	<script type="text/javascript" src="akihabara/src/audio.js"></script>
+	<script type="text/javascript" src="akihabara/src/debug.js"></script>
+	<script type="text/javascript" src="akihabara/src/trigo.js"></script>
+	<script type="text/javascript" src="akihabara/src/plugins/topview.js"></script>
+	<script type="text/javascript" src="akihabara/src/gbox.js"></script>
+	<script type="text/javascript" src="akihabara/src/iphopad.js"></script>
+	<script type="text/javascript" src="akihabara/src/toys.js"></script>
+	<script type="text/javascript" src="akihabara/src/tile.js"></script>
+	<script type="text/javascript" src="akihabara/src/helpers.js"></script>
+	<script type="text/javascript" src="akihabara/src/tools.js"></script>
+	<script type="text/javascript" src="akihabara/src/gamecycle.js"></script>
+	<script type="text/javascript" src="akihabara/src/devices.js"></script>
+	<script type="text/javascript" src="src/player.js"></script>-->
 
 
-    <!--<script type="text/javascript" src="src/game.js"></script>-->
+<script type="text/javascript" src="src/game.js"></script>
     <style type="text/css">
         BODY { -webkit-user-select: none; margin: 0px; }
     </style>
@@ -31,101 +29,82 @@
     <title>Level  Generator</title>
 </head>
 <body>
-    <button id="smackit">GEN</button>
+<!--    <button id="smackit">GEN</button>
     <div id="frame">
         <div id="derp">
         </div>
-    </div>
+    </div>-->
 
 
 
 
 </body>
-<style>
+<!--<style>
     td { width: 8px; height: 8px; text-align: center; border: 0px white solid; color: #99FF55; font-size: 70%; }
     table { border-collapse: collapse; }
-</style>
+</style>-->
 <script>
-
-
-
-    $(document).ready(function () {
-
-        var _thisWidth = 600;
-        var _thisHeight = 250;
-        var _cellSize = 8;
-
-
-
-        var levelGen = function () {
-            var level = poop.generateRandomLevel({
-                width: _thisWidth,
-                height: _thisHeight,
-                divisions: 76,
-                minSubdivideAmt: 3,
-                minParentWidth: 7,
-                corners: true,
-                pathThickness: [1, 1],
-                porportionTolerance: 5,
-                randomRoomSizeRandomToFixedRatio: [0.8, 0.2],
-                porportionTriesUntilBreakSafety: 1000
-
-
-
-            });
-
-            var levelLength = level.length;
-            var table = "<table>";
-            var colorlist = [
-                "#000000",
-                "rgba(172, 236, 68, 0.6)",
-                "rgba(255, 32, 7, 0.6)",
-                "rgba(225, 78, 212, 0.6)",
-                "rgba(128,125,0,0.6)",
-                "rgba(128,255,0,0.6)",
-                "rgba(128,255,125,0.6)",
-                "rgba(255,255,0,0.6)",
-                "rgba(128,0,0,128,0.6)",
-                "rgba(128,0,128,0.6)",
-                "rgba(128,0,200,0.4)",
-                "rgba(128,255,0,0.4)",
-                "rgba(128,255,0,0.4)",
-                "rgba(128,255,0,0.4)",
-                "rgba(128,255,0,0.4)",
-                "rgba(128,255,0,0.4)"
-            ];
-            for (var i = 0; i < levelLength; i++) {
-                table += "<tr>";
-                var tdLength = level[i].length;
-                for (var j = 0; j < tdLength; j++) {
-                    var val = level[i][j];
-                    var color;
-                    if (typeof val == 'number') {
-                        color = colorlist[val];
-                    } else {
-                        color = val;
-                    }
-
-                    table += "<td style='background-color:" + color + "'></td>";
-                }
-                table += "</tr>";
-            }
-            table += "</table>";
-
-            $('#derp').html(table);
-        };
-
-        levelGen();
-        $('#smackit').click(levelGen);
-
-
-
-        $('#frame').css({
-            width: (_thisWidth * _cellSize),
-            height: (_thisHeight * _cellSize)
-        });
-
-    });
-
+    //$(document).ready(function () {
+    //    var _thisWidth = 600;
+    //    var _thisHeight = 250;
+    //    var _cellSize = 8;
+    //    var levelGen = function () {
+    //        var level = poop.generateRandomLevel({
+    //            width: _thisWidth,
+    //            height: _thisHeight,
+    //            divisions: 76,
+    //            minSubdivideAmt: 3,
+    //            minParentWidth: 7,
+    //            corners: true,
+    //            pathThickness: [1, 1],
+    //            porportionTolerance: 5,
+    //            randomRoomSizeRandomToFixedRatio: [0.8, 0.2],
+    //            porportionTriesUntilBreakSafety: 1000
+    //        });
+    //        var levelLength = level.length;
+    //        var table = "<table>";
+    //        var colorlist = [
+    //            "#000000",
+    //            "rgba(172, 236, 68, 0.6)",
+    //            "rgba(255, 32, 7, 0.6)",
+    //            "rgba(225, 78, 212, 0.6)",
+    //            "rgba(128,125,0,0.6)",
+    //            "rgba(128,255,0,0.6)",
+    //            "rgba(128,255,125,0.6)",
+    //            "rgba(255,255,0,0.6)",
+    //            "rgba(128,0,0,128,0.6)",
+    //            "rgba(128,0,128,0.6)",
+    //            "rgba(128,0,200,0.4)",
+    //            "rgba(128,255,0,0.4)",
+    //            "rgba(128,255,0,0.4)",
+    //            "rgba(128,255,0,0.4)",
+    //            "rgba(128,255,0,0.4)",
+    //            "rgba(128,255,0,0.4)"
+    //        ];
+    //        for (var i = 0; i < levelLength; i++) {
+    //            table += "<tr>";
+    //            var tdLength = level[i].length;
+    //            for (var j = 0; j < tdLength; j++) {
+    //                var val = level[i][j];
+    //                var color;
+    //                if (typeof val == 'number') {
+    //                    color = colorlist[val];
+    //                } else {
+    //                    color = val;
+    //                }
+    //                table += "<td style='background-color:" + color + "'></td>";
+    //            }
+    //            table += "</tr>";
+    //        }
+    //        table += "</table>";
+    //        $('#derp').html(table);
+    //    };
+    //    levelGen();
+    //    $('#smackit').click(levelGen);
+    //    $('#frame').css({
+    //        width: (_thisWidth * _cellSize),
+    //        height: (_thisHeight * _cellSize)
+    //    });
+    //});
 </script>
 </html>
