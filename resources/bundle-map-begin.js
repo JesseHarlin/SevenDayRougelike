@@ -10,7 +10,7 @@
         divisions: 90,
         minSubdivideAmt: 5,
         minParentWidth: 11,
-        corners: true,
+        corners: false,
         pathThickness: [1, 3],
         porportionTolerance: 5,
         randomRoomSizeRandomToFixedRatio: [0.8, 0.2],
