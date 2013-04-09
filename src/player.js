@@ -49,7 +49,7 @@
                     AkihabaraTopview.handleGravity(this);
                     AkihabaraTopview.applyForces(this);
                     AkihabaraTopview.applyGravity(this);
-                    //AkihabaraTopview.tileCollision(this, tilemaps.map, "map", tilemaps._defaultblock);
+                    AkihabaraTopview.tileCollision(this, tilemaps.map, "map", tilemaps._defaultblock);
                     AkihabaraTopview.floorCollision(this);
                     AkihabaraTopview.spritewallCollision(this, { group: "walls" });
                     AkihabaraTopview.adjustZindex(this);

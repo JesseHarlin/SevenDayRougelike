@@ -1,24 +1,33 @@
 ﻿var audioserver;
 var maingame;
-var noface; // Is a fake "actor" in dialogues. The text is ever in the same place.
+var noface;
+// Is a fake "actor" in dialogues. The text is ever in the same place.
 var tilemaps = {}, dialogues = {}, credits = {};
 
 
-function objectIsAlive(th) {
+function objectIsAlive(th) {    
+    
+
     return AkihabaraTrigo.getDistance(th, AkihabaraGamebox.getCamera()) < 800;
 }
 
 
 function go() {
+
+
+    //AkihabaraGamebox.initScreen(640, 480);
+
+
     AkihabaraGamebox.setGroups(["background", "player", "walls", "foreground", "gamecycle"]);
 
 
-    AkihabaraGamebox.setRenderOrder(["background", AkihabaraGamebox.ZINDEX_LAYER, "foreground", "gamecycle"]);
+    AkihabaraGamebox.setRenderOrder(["background", AkihabaraGamebox.ZINDEX_LAYER, "foreground", "gamecycle"]);    
+
 
     maingame = AkihabaraGamecycle.createMaingame("gamecycle", "gamecycle");
-    
-    maingame.gameTitleIntroAnimation = function (reset) {
-        
+
+    maingame.gameTitleIntroAnimation = function(reset) {
+
         //if (reset) {
         //    AkihabaraToys.resetToy(this, "rising");
         //} else {
@@ -30,19 +39,19 @@ function go() {
         //        y: 20,
         //        speed: 1,
         //        gapx: 250,
-        //        reflex: 0.1
+        //        reflex: 0.15
         //    });
         //}
 
         return true;
     };
-    
+
     maingame.gameIntroAnimation = function(reset) {
-         return true;
-    }; 
-    
+        return true;
+    };
+
     maingame.endlevelIntroAnimation = function() {
-         return true;
+        return true;
     };
 
 
@@ -81,7 +90,7 @@ function go() {
 
     var counter = 0;
     // Game events are decided by the map.
-    maingame.gameEvents = function () {
+    maingame.gameEvents = function() {
 
         tilemaps.map.mapActions();
     };
@@ -89,7 +98,7 @@ function go() {
 
     // Change level
     maingame.changeLevel = function(level) {
-        
+
 
         //garbage disposal
         AkihabaraGamebox.trashGroup("playerbullets");
@@ -103,13 +112,13 @@ function go() {
         if (level == null) {
             level = {
                 level: "begin",
-                x: 300,
-                y: 270,
+                x: 100,
+                y:100,
                 introdialogue: false
             };
         }
-        
-        dialogues = { };
+
+        dialogues = {};
         delete tilemaps.map;
 
 
@@ -121,8 +130,6 @@ function go() {
 
 
                 AkihabaraGamebox.createCanvas("tileslayer", { w: tilemaps.map.w, h: tilemaps.map.h });
-
-
                 
 
                 AkihabaraGamebox.blitTilemap(AkihabaraGamebox.getCanvasContext("tileslayer"), tilemaps.map);
@@ -134,13 +141,12 @@ function go() {
                 });
 
                 tilemaps.map.addObjects();
-
                 
 
             }
         });
     };
-    
+
     maingame.initializeGame = function() {
         tilemaps = {
             _defaultblock: 100
@@ -149,7 +155,7 @@ function go() {
         AkihabaraGamebox.addObject({
             id: "bg",
             group: "background",
-            blit: function () {
+            blit: function() {
                 AkihabaraGamebox.centerCamera(AkihabaraGamebox.getObject("player", "player"), { w: tilemaps.map.w, h: tilemaps.map.h });
                 AkihabaraGamebox.blit(AkihabaraGamebox.getBufferContext(), AkihabaraGamebox.getCanvas("tileslayer"), { dx: 0, dy: 0, dw: AkihabaraGamebox.getScreenW(), dh: AkihabaraGamebox.getScreenH(), sourcecamera: true });
             }
@@ -168,7 +174,6 @@ function go() {
             maingame.addSmoke({ x: x * ts.tilew, y: y * ts.tilew, h: ts.tileh, w: ts.tilew, hh: ts.tilehh, hw: ts.tilehw, camera: true });
         }
     };
-
 
 
     // Add a still object. Are sprites that supports the z-index (houses, trees.) You can walk around these objects
@@ -206,22 +211,27 @@ function go() {
     AkihabaraGamebox.go();
 }
 
-AkihabaraGamebox.onLoad(function () {
-    
+AkihabaraGamebox.onLoad(function() {
+
     Akihabara.createNewGame({
         title: "Rogue Test",
+        width: 1024,
+        height: 768,
+        statusBar: 1,
+        zoom: 1,
+        backgroundColor: '#000000',
         splash: {
             footnotes: ["Game by the_Siman"],
             background: "resources/capstonesplash.png"
         }
     });
-    
+
     AkihabaraGamebox.addBundle({
-         file: "resources/bundle.js"
+        file: "resources/bundle.js"
     });
-    
+
     AkihabaraGamebox.loadAll(go);
-    
+
 }, false);
 
 

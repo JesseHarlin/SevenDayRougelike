@@ -1,32 +1,33 @@
 ﻿
-var poop = {};
+var levelgenerator = {};
 
 (function() {
 
 
-    poop.generateRandomLevel = function(o) {
+    levelgenerator.generateRandomLevel = function(o) {
 
-        //Tiles
-        var nothingness = 0;
-        var floor = 1;
-        var floor2 = 3;
-        var wall = 2;
 
-        var randomfloor = 3;
+        o.floorTile = o.floorTile || 1;
+        o.voidTile = o.voidTile || 0;
+        o.wallTile == o.wallTile || 2;
+
+   
         var leaves = [];
-
 
         var populateNothingness = function() {
             var level = [];
             for (var i = 0; i < o.height; i++) {
                 var tr = [];
                 for (var j = 0; j < o.width; j++) {
-                    tr.push(nothingness);
+                    tr.push(o.voidTile);
                 }
                 level.push(tr);
             }
             return level;
         };
+
+
+
 
         var makeRoomSquare = function(node, tile) {
             var height = node.h + node.y;
@@ -240,34 +241,30 @@ var poop = {};
 
                 //console.log('leaf', d, node);
 
-                makeRoomSquare(node.subspace, 2);
-                colorCentroid(node.subspace, 4);
+                makeRoomSquare(node.subspace, o.floorTile);
+                colorCentroid(node.subspace, o.wallTile);
 
                 if (o.corners) {
-                    colorCorners(node.subspace, 0);
+                    colorCorners(node.subspace, o.voidTile);
                 }
 
             }
         };
 
-
-        
-
         var drawRightAngle = function (x1, x2, y1, y2, c) {
             
             var thickness = Math.floor(Math.random() * o.pathThickness[1]) + o.pathThickness[0];
 
-
             if (x1 > x2) {
                 for (var i = x2; i <= x1; i++) {
                     for (var k = 0; k < thickness; k++) {
-                        level[y2 + k][i] = 2;
+                        level[y2 + k][i] = o.floorTile;
                     }
                 }
             } else {
                 for (var i = x1; i <= x2; i++) {
                     for (var k = 0; k < thickness; k++) {
-                        level[y2 - k][i] = 2;
+                        level[y2 - k][i] = o.floorTile;
                     }
                 }
             }
@@ -275,17 +272,16 @@ var poop = {};
             if (y1 > y2) {
                 for (var j = y2; j <= y1; j++) {
                     for (var k = 0; k < thickness; k++) {
-                        level[j][x1 + k] = 2;
+                        level[j][x1 + k] = o.floorTile;
                     }
                 }
             } else {
                 for (var j = y1; j <= y2; j++) {
                     for (var k = 0; k < thickness; k++) {
-                        level[j][x1 - k] = 2;
+                        level[j][x1 - k] = o.floorTile;
                     }
                 }
             }
-
         };
 
 
@@ -313,7 +309,7 @@ var poop = {};
 
         };
 
-        //console.log("DEPTH", depth);
+        
 
         traverseTree(tree, singleCallback, batchCallback, depth);
 
@@ -388,9 +384,9 @@ var poop = {};
 
 
         var generateWalls = function (c, x, y) {
-            var floor = 2;
-            var blank = 0;
-            var wall = 9;
+            var floor = o.floorTile;
+            var blank = o.voidTile;
+            var wall =  o.wallTile;
             if (c.c === blank) {
                 if (
                     c.tl === floor ||
@@ -409,9 +405,9 @@ var poop = {};
 
 
         var modulateFloor = function (c, x, y) {
-            var floor = 2;
-            var blank = 0;
-            var wall = 9;
+            var floor = o.floorTile;
+            var blank = o.voidTile;
+            var wall = o.wallTile;
 
             if (c.c === floor) {                
 
@@ -421,7 +417,7 @@ var poop = {};
                 if (rand === 1) {
                     
 
-                    level[x][y] = 'rgba(255, 32, 0, 0.7)';
+                    level[x][y] = 6;
                 }
 
 
@@ -431,14 +427,7 @@ var poop = {};
         };
 
         var cellcallback1 = function (x, y, cellmatrix) {
-
-
             generateWalls(cellmatrix, x, y);
-
-
-            
-
-
         };
 
 
@@ -451,8 +440,10 @@ var poop = {};
 
         processLevel(level, cellcallback1);
 
-        processLevel(level, cellcallback2);
+        //processLevel(level, cellcallback2);
 
+
+        console.log(level);
 
         return level;
     };
