@@ -36,13 +36,16 @@
         <div id="derp">
         </div>
     </div>
-
+    
+<!--    <div>
+        <textarea id="levelstuff" style="width:100%; min-height:200px"></textarea>
+    </div>-->
 
 
 
 </body>
 <style>
-    td { width: 8px; height: 8px; text-align: center; border: 0px white solid; color: #99FF55; font-size: 70%; }
+    td { width: 4px; height: 4px; text-align: center; border: 0px white solid; color: #99FF55; font-size: 70%; }
     table { border-collapse: collapse; }
 </style>
 <script>
@@ -51,9 +54,9 @@
 
     $(document).ready(function () {
 
-        var _thisWidth = 600;
-        var _thisHeight = 250;
-        var _cellSize = 8;
+        var _thisWidth = 300;
+        var _thisHeight = 100;
+        var _cellSize = 4;
 
 
 
@@ -61,14 +64,14 @@
             var level = poop.generateRandomLevel({
                 width: _thisWidth,
                 height: _thisHeight,
-                divisions: 76,
-                minSubdivideAmt: 3,
-                minParentWidth: 7,
+                divisions: 9,
+                minSubdivideAmt: 15,
+                minParentWidth: 33,
                 corners: true,
-                pathThickness: [1, 1],
-                porportionTolerance: 5,
-                randomRoomSizeRandomToFixedRatio: [0.8, 0.2],
-                porportionTriesUntilBreakSafety: 1000
+                pathThickness: [1, 6],
+                porportionTolerance: 4,
+                randomRoomSizeRandomToFixedRatio: [0.95, 0.05],
+                porportionTriesUntilBreakSafety: 4000
 
 
 
@@ -113,6 +116,9 @@
             table += "</table>";
 
             $('#derp').html(table);
+
+
+            $('#levelstuff').text(level);
         };
 
         levelGen();
